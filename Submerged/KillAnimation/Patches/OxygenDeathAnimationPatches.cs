@@ -7,6 +7,8 @@ namespace Submerged.KillAnimation.Patches;
 [HarmonyPatch]
 public static class OxygenDeathAnimationPatches
 {
+    private static OxygenDeathAnimation _oxygenDeath;
+
     private static OxygenDeathAnimation OxygenDeath
     {
         get
@@ -20,8 +22,11 @@ public static class OxygenDeathAnimationPatches
             // the death animation. If you change this... you will pay with your blood!
             //
             // - Alex
+            //
+            // i touched it
+            // -Twist
 
-            if (field) return field;
+            if (_oxygenDeath) return _oxygenDeath;
 
             Transform parent = new GameObject("Submerged OxygenDeathParent").DontUnload().DontDestroy().transform;
             parent.gameObject.SetActive(false);
@@ -30,8 +35,8 @@ public static class OxygenDeathAnimationPatches
             OxygenDeathAnimation customAnimation = original.gameObject.AddComponent<OxygenDeathAnimation>();
             customAnimation.CreateFrom(original);
 
-            field = customAnimation;
-            return field;
+            _oxygenDeath = customAnimation;
+            return _oxygenDeath;
         }
     }
 
@@ -46,5 +51,8 @@ public static class OxygenDeathAnimationPatches
         __instance.ShowKillAnimation(OxygenDeath, killer, victim);
 
         return false;
+    }
+}
+
     }
 }
