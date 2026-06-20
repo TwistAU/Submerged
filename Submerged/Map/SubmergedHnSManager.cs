@@ -10,13 +10,14 @@ namespace Submerged.Map;
 public static class SubmergedHnSManager
 {
     private static int _lastShipStatus = int.MinValue;
+    private static bool _currentGameIsOnUpperDeck;
 
     public static bool CurrentGameIsOnUpperDeck
     {
         get
         {
             int currentInstanceID = ShipStatus.Instance.GetInstanceID();
-            if (_lastShipStatus == currentInstanceID) return field;
+            if (_lastShipStatus == currentInstanceID) return _currentGameIsOnUpperDeck;
             _lastShipStatus = currentInstanceID;
 
             foreach (PlayerControl player in PlayerControl.AllPlayerControls.GetFastEnumerator())
@@ -26,11 +27,11 @@ public static class SubmergedHnSManager
                 FloorHandler floorHandler = FloorHandler.GetFloorHandler(player);
                 if (!floorHandler) continue;
 
-                return field = floorHandler.onUpper;
+                return _currentGameIsOnUpperDeck = floorHandler.onUpper;
             }
 
             Warning("Could not find impostor!!!");
-            return field = false;
+            return _currentGameIsOnUpperDeck = false;
         }
     }
 
