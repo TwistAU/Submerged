@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
@@ -36,7 +36,8 @@ public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISyste
 
         foreach (NetworkedPlayerInfo instanceAllPlayer in GameData.Instance.AllPlayers.GetFastEnumerator())
         {
-            if (instanceAllPlayer.IsDead || instanceAllPlayer.Disconnected || instanceAllPlayer.Object.isDummy) continue;
+            if (!instanceAllPlayer || !instanceAllPlayer.Object ||
+                instanceAllPlayer.IsDead || instanceAllPlayer.Disconnected || instanceAllPlayer.Object.isDummy) continue;
             if (players.Contains(instanceAllPlayer.PlayerId)) continue;
 
             return;
