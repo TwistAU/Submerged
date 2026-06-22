@@ -51,6 +51,7 @@ The table below lists the most recent Submerged release for each Among Us versio
 
 |                                       Among Us Version                                        | Submerged Version |                                        Links                                        |
 |:---------------------------------------------------------------------------------------------:|:-----------------:|:-----------------------------------------------------------------------------------:|
+|                                    `v17.4.0`<br>`v17.3.0`                                     |   `TOU:M Patch`   | [Download](https://github.com/TwistAU/Submerged/releases/tag/Mira)                  | 
 |                                           `v17.1.0`                                           |   `v2025.11.20`   | [Download](https://github.com/SubmergedAmongUs/Submerged/releases/tag/v2025.11.20/) | 
 |                                    `v17.0.1`<br>`v17.0.0`                                     |   `v2025.10.22`   | [Download](https://github.com/SubmergedAmongUs/Submerged/releases/tag/v2025.10.22/) |
 |                 `v16.1.0`<br>`v16.0.5`<br>`v16.0.3`<br>`v16.0.2`<br>`v16.0.0`                 |    Unavailable    |                                          -                                          |
