@@ -54,5 +54,3 @@ public static class OxygenDeathAnimationPatches
     }
 }
 
-    }
-}
