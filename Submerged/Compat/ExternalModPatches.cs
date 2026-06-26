@@ -681,20 +681,21 @@ public static class ExternalModPatches
     public static void WikiAnchorUpdate()
     {
         if (!_wikiArmed) return;
-        if (_wikiCooldown > 0) { _wikiCooldown--; return; }
 
         try
         {
+            if (ShipStatus.Instance && ShipStatus.Instance.IsSubmerged())
+            {
+                AnchorToHud(_wikiButtonField, 1.6f);
+                AnchorToHud(_zoomButtonField, 2.4f);
+                return;
+            }
+
+            if (_wikiCooldown > 0) { _wikiCooldown--; return; }
+
             if (!IsButtonOrphaned(_wikiButtonField) && !IsButtonOrphaned(_zoomButtonField)) return;
 
             _setUpButtonPositions.Invoke(null, null);
-
-            if (ShipStatus.Instance && ShipStatus.Instance.IsSubmerged())
-            {
-                PinOrphanToHud(_wikiButtonField, -1.0f);
-                PinOrphanToHud(_zoomButtonField, -2.0f);
-            }
-
             _wikiCooldown = 15;
         }
         catch
@@ -708,16 +709,24 @@ public static class ExternalModPatches
         return field?.GetValue(null) is GameObject go && go && go.transform.parent == null;
     }
 
-    private static void PinOrphanToHud(FieldInfo field, float xOffset)
+    private static void AnchorToHud(FieldInfo field, float yOffset)
     {
         if (field?.GetValue(null) is not GameObject go || !go) return;
-        if (go.transform.parent != null) return;
         if (!HudManager.Instance || !HudManager.Instance.MapButton) return;
 
         Transform map = HudManager.Instance.MapButton.transform;
-        go.transform.SetParent(map.parent, false);
+        AspectPosition mapAspect = map.GetComponent<AspectPosition>();
+        if (!mapAspect) return;
+
+        if (go.transform.parent != map.parent) go.transform.SetParent(map.parent, false);
         go.transform.localScale = map.localScale;
-        go.transform.localPosition = map.localPosition + new Vector3(xOffset, 0f, 0f);
+
+        AspectPosition aspect = go.GetComponent<AspectPosition>();
+        if (!aspect) aspect = go.AddComponent<AspectPosition>();
+
+        aspect.Alignment = mapAspect.Alignment;
+        aspect.DistanceFromEdge = mapAspect.DistanceFromEdge + new Vector3(0f, yOffset, 0f);
+        aspect.AdjustPosition();
     }
 
     private static PropertyInfo _escapeMarkProp;
